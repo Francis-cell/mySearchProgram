@@ -3,7 +3,7 @@ import requests
 from lxml import etree
 from bs4 import BeautifulSoup as sp
 import re
-from WordCloudUtils import WordCloudUtils
+# from WordCloudUtils import WordCloudUtils
 
 
 class BaiduBaikeSpiderUtils(object):
@@ -80,19 +80,19 @@ class BaiduBaikeSpiderUtils(object):
 
 
 
-if __name__ == '__main__':
-    print("百度爬虫携带词云生成！！")
-    proxies = {
-        'http': 'http://@58.20.184.187:9091',
-        'http': 'http://@101.200.127.149:3129',
-        # 'http': 'http://@27.42.168.46:9091',
-        # 'http': 'http://@47.106.105.236:80'
-    }
-    key_words = input("请输入需要查询的关键词:")
-    baidus = BaiduBaikeSpiderUtils(proxies, key_words)
-    resultTemp = baidus.baiduSpider02()
-    print("resultTemp的值为：", resultTemp)
-    # 生成词云文件
-    wordsUtils = WordCloudUtils(key_words)
-    wordsUtils.createCloudWord()
-    print("运行结束")
+# if __name__ == '__main__':
+#     print("百度爬虫携带词云生成！！")
+#     proxies = {
+#         'http': 'http://@58.20.184.187:9091',
+#         'http': 'http://@101.200.127.149:3129',
+#         # 'http': 'http://@27.42.168.46:9091',
+#         # 'http': 'http://@47.106.105.236:80'
+#     }
+#     key_words = input("请输入需要查询的关键词:")
+#     baidus = BaiduBaikeSpiderUtils(proxies, key_words)
+#     resultTemp = baidus.baiduSpider02()
+#     print("resultTemp的值为：", resultTemp)
+#     # 生成词云文件
+#     wordsUtils = WordCloudUtils(key_words)
+#     wordsUtils.createCloudWord()
+#     print("运行结束")

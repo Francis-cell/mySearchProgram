@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>页面提交</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='/css/MyCss01.css') }}">
+    <script type="text/javascript" src="{{ url_for('static', filename='/js/MyTest01.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='/JQuery/jquery.min.js') }}"></script>
+</head>
+<body>
+    <div id="rootDiv">
+        <!-- 将表单将要发送的数据发送给本机的5000端口的/result提供的服务，采用的发送方式为POST方式 -->
+        <form action="http://localhost:5000/result" method="POST">
+             <p>搜索内容 <input id="searchContents" type = "text" name = "searchContents" /></p>
+             <p><input id="submit" type = "submit" value = "提交" /></p>
+        </form>
+        <div id="div1">{{ result }}</div>
+    </div>
+
+</body>
+</html>

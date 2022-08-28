@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>个人网页</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="../staticFiles/css/style.css" />
+		<script src="../staticFiles/js/hm.js"></script><script type="text/javascript"></script>
+		<script type="text/javascript">
+			var last_kw = '';
+			var max_sug_len = 1; //搜索建议最短触发长度
+
+			/*获取搜索建议
+			采用的神马搜索的服务
+			*/
+			function get_suggest() {
+				var kw = document.getElementById('search_input').value;
+				var clear = document.getElementById('clear');
+				if (kw) clear.style.display = 'block';
+				else clear.style.display = 'none';
+				if (kw == last_kw) return;
+				last_kw = kw;
+				if (!kw || kw.length < max_sug_len) {
+					close_sug();
+					return;
+				}
+				var script = document.createElement('script');
+				script.type = 'text/javascript';
+				script.src = 'http://sugs.m.sm.cn/web?t=w&uc_param_str=dnnwnt&scheme=http&fr=android&bid=1&q=' + encodeURIComponent(kw) + '&_=' + new Date().getTime() + '&callback=jsonp3';
+				var head = document.querySelector('head');
+				script.onload = function() {
+				  head.removeChild(script);
+				};
+				head.appendChild(script);
+			}
+			function jsonp3(res) {
+				var suggest = document.getElementById('suggest');
+				if (!res.r || !res.r.length) {
+					suggest.style.display = 'none';
+					return;
+				}
+				var html = '';
+				res.r.forEach(function(v) {
+					html += '<li>' + v.w + '<b></b></li>';
+				});
+				document.getElementById('suglist').innerHTML = html;
+				suggest.style.display = 'block';
+			}
+			function close_sug() {
+				last_kw = '';
+				document.getElementById('suggest').style.display = 'none';
+			}
+			function move_input() {
+				document.body.scrollTop = document.getElementById('search_form').offsetTop - 2;
+			}
+			function clear_seach() {
+				var input = document.getElementById('search_input');
+				input.value = '';
+				document.getElementById('clear').style.display = 'none';
+				close_sug();
+				input.focus();
+			}
+
+			var suglist = document.getElementById("suglist");
+			if(suglist) {
+				console.log("suglist:", suglist);
+				addEventListener("click", function(e) {
+					var input = document.getElementById('search_input');
+					console.log("e.target.tagName:", e);
+					if (e.target.tagName == 'b') {
+						input.value = e.target.parentNode.firstChild.textContent;
+						input.focus();
+					} else if (e.target.tagName == 'li') {
+						debugger;
+						input.value = e.target.firstChild.textContent;
+						close_sug();
+						search();
+					}
+				});
+			}
+			window.addEventListener('resize', move_input);
+</script>
+	</head>
+	<body>
+		<canvas id="sakura" width="400" height="920"></canvas>
+		<div class="header-top">
+			<div class="header-top-f">
+				<h3>数据搜索</h3>
+<!--				<form id="myForm" action="http://localhost:5000/result" method="POST">-->
+<!--					 <p><input id="searchContents" type = "text" name = "searchContents" /></p>-->
+<!--					 <p><input id="submit" type = "submit" value = "提交" /></p>-->
+<!--        		</form>-->
+				<div id="myForm">
+					<form action="http://localhost:5000/result" method="POST" id="search_form" onsubmit="return search()" class="search_bar">
+						<input type="submit" id="search_submit" value="✢">
+						<span><i id="clear"></i><div class="si"><input class="search" type="text" name="searchContents" value="" onkeyup="get_suggest()" onfocus="get_suggest()" onpaste="get_suggest()" autocomplete="off" id="search_input" placeholder="✎..."></div>
+						</span>
+						<div id="suggest" style="display:none">
+							<ul id="suglist"></ul>
+							<div class="close" onclick="close_sug()">| 收起</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		{% if result is defined %}
+			{% for key, value in result.items() %}
+			<div class="img-text" >
+				<div class="img-text-list"  style="background-color: white">
+					<div class="itl-img">
+						 <img src="../staticFiles/../staticFiles/img/banner.jpg">
+					</div>
+					<div class="itl-text">
+						<h4>{{ key }}</h4>
+						<textarea cols="76" rows="6">{{ value }}</textarea>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+		{% else %}
+			<div class="img-text" >
+				<div class="img-text-list"  style="background-color: white">
+					<div class="itl-img">
+						 <img src="../staticFiles/../staticFiles/img/banner.jpg">
+					</div>
+					<div class="itl-text">
+						<h4></h4>
+						<textarea cols="76" rows="6"></textarea>
+					</div>
+				</div>
+			</div>
+		{% endif %}
+
+		<div class="footer">
+			<div class="footer-f"></div>
+		</div>
+	</body>
+</html>

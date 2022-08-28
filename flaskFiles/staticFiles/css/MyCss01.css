@@ -1,0 +1,44 @@
+@charset "utf-8";
+
+#rootDiv {
+    font-family: "Microsoft YaHei UI";
+    margin-top: 30px;
+    margin-left: 76px;
+}
+
+form p{
+    float: left;
+    text-align: center;
+    font-size: 20px;
+}
+
+#searchContents {
+    height: 30px;
+    width: 300px;
+}
+
+#submit {
+    height: 37px;
+    width: 80px;
+    background-color: lightcoral;
+    text-align: center;
+    font-family: "Microsoft YaHei UI";
+}
+
+#div1 {
+    margin-top: 100px;
+    border-radius: 10px;
+    width: 480px;
+    height: 500px;
+    background-color: moccasin;
+    font-size: 20px;
+    border: aqua;
+    font-family: "Microsoft YaHei UI";
+    /*line-height: 160px;*/
+    text-align: center;
+}
+
+input {
+    border-radius: 6px;
+}
+

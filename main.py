@@ -10,7 +10,7 @@ from flaskFiles import spiderFlask as sf
 if __name__ == '__main__':
     print("关键词含义搜索项目！！！")
     proxies = {
-        # 'http': 'http://@58.20.184.187:9091',
+        'http': 'http://@58.20.184.187:9091',
         'http': 'http://@101.200.127.149:3129',
         # 'http': 'http://@27.42.168.46:9091',
         # 'http': 'http://@47.106.105.236:80'

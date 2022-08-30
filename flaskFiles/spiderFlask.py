@@ -21,22 +21,21 @@ def result():
             return render_template("myLayoutDesign.html")
         else:
             # 1、调用百度查询
-            # resultTemp = baidus(proxies, key_words).baiduSpider()
+            resultTemp = baidus(proxies, key_words).baiduSpider()
             # 2、使用wiki查询
-            resultTemp = wikis(key_words).wikiSpiderUtil()
+            # resultTemp = wikis(key_words).wikiSpiderUtil()
             # 将数据缓存起来
             d_save.setData(innerKey=key_words, innerValue=resultTemp)
-            result = d_save.reverseDict()
-            # result = list(tuple(result.items()))
-            # print("tempValues的值为：", result)
-            # return render_template('myLayoutDesign.html', result=result, key_words=key_words)
+            # result= d_save.reverseDict()
+            resultTemp = d_save.withNumDict()
+            result = d_save.reverseDict(resultTemp)
             return render_template('myLayoutDesign.html', result=result)
 
 
 def mains(proxy):
     global d_save
-    d_save = Dsave()
+    # 最多保存n条数据
+    d_save = Dsave(3)
     global proxies
     proxies = proxy
-    # print("======", proxies)
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0")

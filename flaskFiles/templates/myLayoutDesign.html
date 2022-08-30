@@ -9,7 +9,6 @@
 		<script type="text/javascript">
 			var last_kw = '';
 			var max_sug_len = 1; //搜索建议最短触发长度
-
 			/*获取搜索建议
 			采用的神马搜索的服务
 			*/
@@ -60,25 +59,27 @@
 				close_sug();
 				input.focus();
 			}
-
-			var suglist = document.getElementById("suglist");
-			if(suglist) {
-				console.log("suglist:", suglist);
-				addEventListener("click", function(e) {
-					var input = document.getElementById('search_input');
-					console.log("e.target.tagName:", e);
-					if (e.target.tagName == 'b') {
-						input.value = e.target.parentNode.firstChild.textContent;
-						input.focus();
-					} else if (e.target.tagName == 'li') {
-						debugger;
-						input.value = e.target.firstChild.textContent;
-						close_sug();
-						search();
-					}
-				});
+			function main() {
+				get_suggest();
+				var suglist = document.getElementById("suglist");
+				if(suglist) {
+					addEventListener("click", function(e) {
+						var input = document.getElementById('search_input');
+						if (e.target.tagName === 'b' || e.target.tagName === 'B') {
+							input.value = e.target.parentNode.firstChild.textContent;
+							input.focus();
+						} else if (e.target.tagName === 'LI' || e.target.tagName === 'li') {
+							debugger;
+							input.value = e.target.firstChild.textContent;
+							console.log('input.value:', input.value);
+							close_sug();
+							// search();
+						}
+					});
+				}
+				window.addEventListener('resize', move_input);
 			}
-			window.addEventListener('resize', move_input);
+
 </script>
 	</head>
 	<body>
@@ -90,14 +91,33 @@
 <!--					 <p><input id="searchContents" type = "text" name = "searchContents" /></p>-->
 <!--					 <p><input id="submit" type = "submit" value = "提交" /></p>-->
 <!--        		</form>-->
-				<div id="myForm">
-					<form action="http://localhost:5000/result" method="POST" id="search_form" onsubmit="return search()" class="search_bar">
+				<div id="myForm" style="width: 45%;">
+					<form action="http://localhost:5000/result" method="POST" id="search_form"  class="search_bar">
+<!--					<form action="http://localhost:5000/result" method="POST" id="search_form" onsubmit="return search()" class="search_bar">-->
 						<input type="submit" id="search_submit" value="✢">
-						<span><i id="clear"></i><div class="si"><input class="search" type="text" name="searchContents" value="" onkeyup="get_suggest()" onfocus="get_suggest()" onpaste="get_suggest()" autocomplete="off" id="search_input" placeholder="✎..."></div>
+<!--						<span><i id="clear"></i><div class="si"><input class="search" type="text" name="searchContents" value="" onkeyup="get_suggest()" onfocus="get_suggest()" onpaste="get_suggest()" autocomplete="off" id="search_input" placeholder="✎..."></div>-->
+						<span>
+							<i id="clear"></i>
+							<div class="si">
+								<input class="search"
+									   type="text"
+									   name="searchContents"
+									   value=""
+									   onkeyup="main()"
+									   onfocus="main()"
+									   onpaste="get_suggest()"
+									   autocomplete="off"
+									   id="search_input"
+									   placeholder="✎...">
+							</div>
 						</span>
 						<div id="suggest" style="display:none">
 							<ul id="suglist"></ul>
-							<div class="close" onclick="close_sug()">| 收起</div>
+							<div class="close"
+								 onclick="close_sug()"
+							>
+								| 收起
+							</div>
 						</div>
 					</form>
 				</div>

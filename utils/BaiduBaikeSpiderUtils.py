@@ -38,6 +38,9 @@ class BaiduBaikeSpiderUtils(object):
         filter_result = [item.strip("\n") for item in result_list]
         # 清洗掉\xa0
         filter_result = [item.replace(u'\xa0', u'') for item in filter_result]
+        # 清除掉所有的[XXX]数据
+        pat = re.compile(r'\[.*?\]')
+        filter_result = [re.sub(pat, '', item) for item in filter_result]
         # 拼接字符串，然后返回结果
         return "".join(filter_result)
 
